@@ -333,3 +333,5 @@ cython_debug/
 
 #PyCharm
 *.idea
+
+Chapter02/truffle-test/build

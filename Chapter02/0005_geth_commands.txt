@@ -1,0 +1,27 @@
+Description                                 Command
+
+Default geth mode used for basic operation  geth
+
+Interactive console (silent mode)           geth console --verbosity 0
+
+Command reference                           geth help
+
+Rinkeby testnet                             geth --rinkeby
+
+Account management                          geth account
+
+Create account                              geth account new
+
+Sync mainnet                                geth --fast --cache=1024
+
+Sync Rinkeby                                geth --rinkeby \
+                                                --fast --cache=1024
+
+RPC mode                                    geth --rpc
+
+RPC mode with local wallet access           geth --rpc --rpcapi \
+                                                web3,eth,net,personal
+
+Listen on custom network port               geth --port <port>
+
+Listen on custom RPC port                   geth --rpc --rpcport <port>
