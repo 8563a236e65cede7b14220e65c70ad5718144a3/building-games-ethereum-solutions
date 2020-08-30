@@ -338,3 +338,4 @@ Chapter02/truffle-test/build
 Chapter03/0002_hello_world/node_modules
 Chapter03/0002_hello_world/password
 ganache
+*/**/node_modules

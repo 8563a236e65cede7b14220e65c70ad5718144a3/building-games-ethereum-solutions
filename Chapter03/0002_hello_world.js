@@ -1,5 +1,11 @@
+// Global contract variable
+HelloWorld = 0;
+
 // Save bytecode as string
 bytecode = "60806040526040518060400160405280600b81526020017f48656c6c6f20576f726c64000000000000000000000000000000000000000000815260200150600160005090805190602001906100559291906100ac565b503480156100635760006000fd5b505b33600060006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff1602179055505b610154565b828054600181600116156101000203166002900490600052602060002090601f016020900481019282601f106100ed57805160ff1916838001178555610120565b82800160010185558215610120579182015b8281111561011f57825182600050909055916020019190600101906100ff565b5b50905061012d9190610131565b5090565b610136565b808211156101505760008181506000905550600101610136565b5090565b610249806101636000396000f3fe60806040523480156100115760006000fd5b506004361061003b5760003560e01c806341c0e1b514610041578063cfae32171461004b5761003b565b60006000fd5b6100496100cf565b005b610053610169565b6040518080602001828103825283818151815260200191508051906020019080838360005b838110156100945780820151818401525b602081019050610078565b50505050905090810190601f1680156100c15780820380516001836020036101000a031916815260200191505b509250505060405180910390f35b3373ffffffffffffffffffffffffffffffffffffffff16600060009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1614151561012c5760006000fd5b600060009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16ff5b565b606060016000508054600181600116156101000203166002900480601f0160208091040260200160405190810160405280929190818152602001828054600181600116156101000203166002900480156102045780601f106101d957610100808354040283529160200191610204565b820191906000526020600020905b8154815290600101906020018083116101e757829003601f168201915b50505050509050610210565b9056fea26469706673582212208f836f9140da5b3436a945f3b05f156fdaf5f012d70052c41965bd07e3afd6de64736f6c63430007000033";
+
+// Save abi
+abi = [{"inputs":[],"stateMutability":"nonpayable","type":"constructor"},{"inputs":[],"name":"greet","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"kill","outputs":[],"stateMutability":"nonpayable","type":"function"}];
 
 // Unlock account for contract creation
 personal.unlockAccount(eth.accounts[0], "");
@@ -12,17 +18,22 @@ tx = eth.sendTransaction({
     gas: 500e3
 });
 
-// Wait for transaction receipt
-web3.eth.getTransactionReceipt(tx);
+function wait_for_contract(){
+    if(web3.eth.getTransactionReceipt(tx) == null){
+        console.log("waiting...");
+        setTimeout(wait_for_contract, 1000);
+    } else {
+        console.log("contract available");
+        map_contract();
+    }
+}
 
-// Get contract address
-address = web3.eth.getTransactionReceipt(tx).contractAddress;
+function map_contract(){
+    address = web3.eth.getTransactionReceipt(tx).contractAddress;
+    HelloWorld = web3.eth.contract(abi).at(address);
+}
 
-// Save abi
-abi = [{"inputs":[],"stateMutability":"nonpayable","type":"constructor"},{"inputs":[],"name":"greet","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"kill","outputs":[],"stateMutability":"nonpayable","type":"function"}];
-
-// Create contract object
-HelloWorld = web3.eth.contract(abi).at(address);
+wait_for_contract();
 
 // Call function
 HelloWorld.greet.call()
