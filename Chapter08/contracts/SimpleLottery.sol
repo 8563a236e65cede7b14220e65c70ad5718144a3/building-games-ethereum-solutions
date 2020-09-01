@@ -8,8 +8,7 @@ contract SimpleLottery {
     address payable public winner;
     uint public ticketingCloses;
 
-    constructor () {
-        uint duration = 3600 * 24 * 3;
+    constructor (uint duration) {
         ticketingCloses = block.timestamp + duration;
     }
 
