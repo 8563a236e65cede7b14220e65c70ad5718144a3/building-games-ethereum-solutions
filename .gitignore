@@ -340,3 +340,4 @@ Chapter03/0002_hello_world/password
 ganache
 */**/node_modules
 */**/build
+passwords.txt
